@@ -7,6 +7,8 @@ using Microsoft.Extensions.FileProviders;
 
 namespace Microsoft.Extensions.Configuration
 {
+    using IOPath = Path;
+
     /// <summary>
     /// Represents a base class for file based <see cref="IConfigurationSource"/>.
     /// </summary>
@@ -68,14 +70,14 @@ namespace Microsoft.Extensions.Configuration
         {
             if (FileProvider == null && 
                 !string.IsNullOrEmpty(Path) &&
-                System.IO.Path.IsPathRooted(Path))
+                IOPath.IsPathRooted(Path))
             {
-                var directory = System.IO.Path.GetDirectoryName(Path);
-                var pathToFile = System.IO.Path.GetFileName(Path);
+                var directory = IOPath.GetDirectoryName(Path);
+                var pathToFile = IOPath.GetFileName(Path);
                 while (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
                 {
-                    pathToFile = System.IO.Path.Combine(System.IO.Path.GetFileName(directory), pathToFile);
-                    directory = System.IO.Path.GetDirectoryName(directory);
+                    pathToFile = IOPath.Combine(IOPath.GetFileName(directory), pathToFile);
+                    directory = IOPath.GetDirectoryName(directory);
                 }
                 if (Directory.Exists(directory))
                 {
